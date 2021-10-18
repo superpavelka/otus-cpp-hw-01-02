@@ -86,6 +86,8 @@ ip_vec filter_any(ip_vec& ip_pool, int any_byte)
 
 int main(int argc, char const *argv[])
 {
+	for (int i = 1; i < argc; i++)
+		puts(argv[i]);
     try
     {
 		ip_vec ip_pool;
