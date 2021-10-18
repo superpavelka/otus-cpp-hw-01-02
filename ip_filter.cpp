@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include "lib.h"
-
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
 // ("..", '.') -> ["", "", ""]
@@ -102,8 +101,8 @@ int main(int argc, char const *argv[])
         // reverse lexicographically sort
 		
 		sort(ip_pool.begin(), ip_pool.end(), [](const ip& a, const ip& b) {
-			return (((std::stoi(a[0]) * 255 + std::stoi(a[1])) * 255 + std::stoi(a[2])) * 255 + std::stoi(a[3])) > 
-				   (((std::stoi(b[0]) * 255 + std::stoi(b[1])) * 255 + std::stoi(b[2])) * 255 + std::stoi(b[3])); }
+			return ((unsigned)((std::stoi(a[0]) * 256 + std::stoi(a[1])) * 256 + std::stoi(a[2])) * 256 + std::stoi(a[3])) > 
+				   ((unsigned)((std::stoi(b[0]) * 256 + std::stoi(b[1])) * 256 + std::stoi(b[2])) * 256 + std::stoi(b[3])); }
 		);
 
 		print_ip_pool(ip_pool);
