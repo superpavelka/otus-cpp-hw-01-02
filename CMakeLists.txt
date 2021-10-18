@@ -9,3 +9,13 @@ set_target_properties(
         CXX_STANDARD 14
         CXX_STANDARD_REQUIRED ON
 		)      
+
+if (MSVC)
+    target_compile_options(ip_filter PRIVATE
+        /W4
+    )
+else ()
+    target_compile_options(ip_filter PRIVATE
+        -Wall -Wextra -pedantic -Werror
+    )
+endif()
