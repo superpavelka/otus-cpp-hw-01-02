@@ -10,6 +10,10 @@ set_target_properties(
         CXX_STANDARD_REQUIRED ON
 		)      
 
+target_include_directories(ip_filter
+    PRIVATE "${CMAKE_BINARY_DIR}"
+)
+
 if (MSVC)
     target_compile_options(ip_filter PRIVATE
         /W4
