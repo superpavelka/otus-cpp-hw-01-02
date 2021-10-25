@@ -12,12 +12,13 @@
 // (".11", '.') -> ["", "11"]
 // ("11.22", '.') -> ["11", "22"]
 
-using ip_vec = std::vector<std::vector<std::string>>;
+using ip_vec = std::vector<std::vector<int>>;
+using ip_int = std::vector<int>;
 using ip = std::vector<std::string>;
 
 ip split(const std::string &str, char d)
 {
-    std::vector<std::string> r;
+	ip r;
 
     std::string::size_type start = 0;
     std::string::size_type stop = str.find_first_of(d);
@@ -57,9 +58,9 @@ ip_vec filter(ip_vec& ip_pool, int first_byte, int second_byte = -1)
 		return ip_pool_filtered;
 	for (auto ip_addr : ip_pool)
 	{
-		if (second_byte < 0 && first_byte == std::stoi(ip_addr[0]))
+		if (second_byte < 0 && first_byte == ip_addr[0])
 			ip_pool_filtered.push_back(ip_addr);
-		else if (first_byte == std::stoi(ip_addr[0]) && second_byte == std::stoi(ip_addr[1]))
+		else if (first_byte == ip_addr[0] && second_byte == ip_addr[1])
 			ip_pool_filtered.push_back(ip_addr);
 	}
 
@@ -73,10 +74,10 @@ ip_vec filter_any(ip_vec& ip_pool, int any_byte)
 		return ip_pool_filtered;
 	for (auto ip_addr : ip_pool)
 	{
-		if (any_byte == std::stoi(ip_addr[0]) || 
-			any_byte == std::stoi(ip_addr[1]) ||
-			any_byte == std::stoi(ip_addr[2]) ||
-			any_byte == std::stoi(ip_addr[3])
+		if (any_byte == ip_addr[0] || 
+			any_byte == ip_addr[1] ||
+			any_byte == ip_addr[2] ||
+			any_byte == ip_addr[3]
 			)
 			ip_pool_filtered.push_back(ip_addr);
 	}
@@ -95,14 +96,18 @@ int main(int argc, char const *argv[])
         for(std::string line; std::getline(std::cin, line);)
         {
             ip v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
+			v = split((v.at(0)), '.');
+			ip_int v_int;
+			for (auto ip_part : v)
+				v_int.push_back(std::stoi(ip_part));
+            ip_pool.push_back(v_int);
         }
 
         // reverse lexicographically sort
 		
-		sort(ip_pool.begin(), ip_pool.end(), [](const ip& a, const ip& b) {
-			return ((unsigned)((std::stoi(a[0]) * 256 + std::stoi(a[1])) * 256 + std::stoi(a[2])) * 256 + std::stoi(a[3])) > 
-				   ((unsigned)((std::stoi(b[0]) * 256 + std::stoi(b[1])) * 256 + std::stoi(b[2])) * 256 + std::stoi(b[3])); }
+		sort(ip_pool.begin(), ip_pool.end(), [](const ip_int& a, const ip_int& b) {
+			return ((unsigned)(((a[0] * 256 + a[1]) * 256 + a[2]) * 256 + a[3])) > 
+				   ((unsigned)(((b[0] * 256 + b[1]) * 256 + b[2]) * 256 + b[3])); }
 		);
 
 		print_ip_pool(ip_pool);
