@@ -89,14 +89,18 @@ int main(int argc, char const *argv[])
 {
 	for (int i = 1; i < argc; i++)
 		puts(argv[i]);
+	std::string invalid_ip;
+	int line_num = 0;
     try
     {
 		ip_vec ip_pool;
-
+		ip_pool.reserve(100);
         for(std::string line; std::getline(std::cin, line);)
         {
             ip v = split(line, '\t');
 			v = split((v.at(0)), '.');
+			line_num++;
+			invalid_ip = line;
 			ip_int v_int;
 			for (auto ip_part : v)
 				v_int.push_back(std::stoi(ip_part));
@@ -183,7 +187,7 @@ int main(int argc, char const *argv[])
     }
     catch(const std::exception &e)
     {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() <<  " wrong line -" << line_num << " " << invalid_ip.c_str() << std::endl;
     }
 
     return 0;
