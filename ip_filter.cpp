@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include "lib.h"
-
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
 // ("..", '.') -> ["", "", ""]
